@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import List from "../components/List";
 import { getReceiversList, addNewReceiver, deleteReceiver, changeReceiver } from "../api";
+import { useNavigate } from "react-router-dom";
 
 export default function ReceiversList() {
   const [receivers, setRecievers] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     getReceiversList()
       .then(list => setRecievers(list));
@@ -45,7 +47,7 @@ export default function ReceiversList() {
 
   return (
     <div className="container-lg mt-4">
-      <h2 className="d-flex justify-content-center">Адресаты</h2>
+      <h2 className="text-center">Адресаты</h2>
       {
         receivers &&
         <List
@@ -54,6 +56,24 @@ export default function ReceiversList() {
           removeCallback={id => removeFromList(id)}
           changeCallback={data => changeElement(data)}
         />}
+        <div className="d-grid gap-2 col-6 mx-auto d-md-flex justify-content-center">
+        <button
+          className="btn btn-lg btn-secondary"
+          type="button"
+          onClick={event => {
+            event.preventDefault();
+            navigate('/view');
+          }}
+        >Назад</button>
+        <button
+          className="btn btn-lg btn-primary"
+          type="button"
+          onClick={event => {
+            event.preventDefault();
+            navigate('/list');
+          }}
+        >Разослать</button>
+      </div>
     </div>
   )
 }

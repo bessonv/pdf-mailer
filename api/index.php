@@ -29,5 +29,15 @@ if ($uri[3] == 'receivers') {
 }
 
 if ($uri[3] == 'document') {
+  if ($uri[4] == 'load') {
+    $uploaddir = __DIR__ . "/files/";
+    $uploadfile = $uploaddir . basename($_FILES['file']['name']);
+
+    if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
+      echo json_encode(['result' => 'success']);
+    } else {
+      echo json_encode(['result' => 'failure']);
+    }
+  }
   // load, send, get
 }

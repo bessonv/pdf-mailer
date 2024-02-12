@@ -6,5 +6,8 @@ export const API = {
     add: BASE_URL + '/receivers/add',
     change: BASE_URL + '/receivers/change',
     delete: BASE_URL + '/receivers/delete'
+  },
+  document: {
+    load: BASE_URL + '/document/load'
   }
 }

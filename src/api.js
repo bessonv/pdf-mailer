@@ -17,6 +17,18 @@ async function fetchData(url, method, data = {}) {
   return responseContent;
 }
 
+export async function fetchFile(data) {
+  const options = {
+    method: 'POST',
+    // headers: {
+    //   'content-type': 'multipart/form-data',
+    // },
+    body: data
+  };
+  const response = await fetch(API.document.load, options);
+  return response.json();
+}
+
 export async function getReceiversList() {
   const response = await fetchData(API.receivers.list, 'GET');
   return response;
