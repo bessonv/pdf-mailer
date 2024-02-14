@@ -1,17 +1,17 @@
 <?php
 namespace API\Controller;
 
-use API\Model\ReceiverModel;
+use API\Model\RecipientModel;
 
-class ReceiverController extends Controller {
+class RecipientController extends Controller {
   public function listAction() {
     $method = $_SERVER['REQUEST_METHOD'];
     if ($method != 'GET') {
       $this->sendMethodError();
     }
-    $model = new ReceiverModel();
-    $receivers = $model->getReceivers();
-    $this->sendOutput($receivers, ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
+    $model = new RecipientModel();
+    $recipients = $model->getRecipients();
+    $this->sendOutput($recipients, ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
   }
 
   public function addAction() {
@@ -19,11 +19,11 @@ class ReceiverController extends Controller {
     if ($method != 'POST') {
       $this->sendMethodError();
     }
-    $model = new ReceiverModel();
+    $model = new RecipientModel();
     $data = json_decode(file_get_contents("php://input"), true);
     $data['type'] = $this->validateContact($data['contact']);
-    $newReceiver = $model->addReceiver($data);
-    $this->sendOutput(['receiver' => $newReceiver], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
+    $newRecipient = $model->addRecipient($data);
+    $this->sendOutput(['recipient' => $newRecipient], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
   }
 
   public function validateContact($contact) {
@@ -42,15 +42,15 @@ class ReceiverController extends Controller {
       $this->sendMethodError();
     }
 
-    $model = new ReceiverModel();
+    $model = new RecipientModel();
     $body = json_decode(file_get_contents('php://input'), true);
     $params = $this->getQueryStringParams();
-    if (!isset($params['receiver_id'])) {
+    if (!isset($params['recipient_id'])) {
       $this->sendServerError();
     }
     $body['type'] = $this->validateContact($body['contact']);
-    $receiver = $model->changeReceiver($params['receiver_id'], $body);
-    $this->sendOutput(['receiver' => $receiver], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
+    $recipient = $model->changeRecipient($params['recipient_id'], $body);
+    $this->sendOutput(['recipient' => $recipient], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
   }
 
   public function deleteAction() {
@@ -59,11 +59,11 @@ class ReceiverController extends Controller {
       $this->sendMethodError();
     }
     $params = $this->getQueryStringParams();
-    if (!isset($params['receiver_id'])) {
+    if (!isset($params['recipient_id'])) {
       $this->sendServerError();
     }
-    $model = new ReceiverModel();
-    $model->deleteReceiver($params['receiver_id']);
+    $model = new RecipientModel();
+    $model->deleteRecipient($params['recipient_id']);
     $this->sendOutput(['status' => 'success'], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
   }
 }

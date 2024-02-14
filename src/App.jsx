@@ -1,7 +1,7 @@
 import './App.css'
 import { Routes, Route, BrowserRouter } from "react-router-dom"
 import DocumentLoader from './pages/DocumentLoader';
-import ReceiversList from './pages/ReceiversList';
+import RecipientsList from './pages/RecipientsList';
 import DocumentViewver from './pages/DocumentViewer';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<DocumentLoader />}/>
         <Route path="/view" element={<DocumentViewver />}/>
-        <Route path="/list" element={<ReceiversList />}/>
+        <Route path="/list" element={<RecipientsList />}/>
       </Routes> 
     </BrowserRouter>
   )

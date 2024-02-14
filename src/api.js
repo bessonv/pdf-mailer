@@ -41,21 +41,21 @@ export async function getFileLink() {
   return response.link;
 }
 
-export async function getReceiversList() {
-  return await get(API.receivers.list);
+export async function getRecipientsList() {
+  return await get(API.recipients.list);
 }
 
-export async function addNewReceiver(receiver) {
-  const response = await post(API.receivers.add, receiver);
-  return response.receiver;
+export async function addNewRecipient(recipient) {
+  const response = await post(API.recipients.add, recipient);
+  return response.recipient;
 }
 
-export async function changeReceiver(id, receiver) {
-  const response = await post(`${API.receivers.change}?receiver_id=${id}`, receiver);
-  return response.receiver;
+export async function changeRecipient(id, recipient) {
+  const response = await post(`${API.recipients.change}?recipient_id=${id}`, recipient);
+  return response.recipient;
 }
 
-export async function deleteReceiver(id) {
-  const response = await get(`${API.receivers.delete}?receiver_id=${id}`);
+export async function deleteRecipient(id) {
+  const response = await get(`${API.recipients.delete}?recipient_id=${id}`);
   return response.status;
 }

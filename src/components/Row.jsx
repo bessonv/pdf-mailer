@@ -10,7 +10,7 @@ export default function Row({ data, remove, change }) {
           className="col btn btn-sm btn-primary"
           onClick={event => {
             event.preventDefault();
-            change(data.receiver_id);
+            change(data.recipient_id);
           }}
         >Изменить</button>
         <button
@@ -18,7 +18,7 @@ export default function Row({ data, remove, change }) {
           className="col mx-2 btn btn-sm btn-danger"
           onClick={event => {
             event.preventDefault();
-            remove(data.receiver_id)
+            remove(data.recipient_id)
           }}
         >Удалить</button>
       </td>

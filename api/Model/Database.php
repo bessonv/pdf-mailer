@@ -21,8 +21,8 @@ class Database {
 
   public function createTables() {
     $commands = [
-      'CREATE TABLE IF NOT EXISTS receivers (
-        receiver_id INTEGER PRIMARY KEY, 
+      'CREATE TABLE IF NOT EXISTS recipients (
+        recipient_id INTEGER PRIMARY KEY, 
         fullname TEXT NOT NULL,
         contact TEXT NOT NULL,
         type TEXT NOT NULL

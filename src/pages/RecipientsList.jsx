@@ -1,47 +1,47 @@
 import { useEffect, useState } from "react";
 import List from "../components/List";
-import { getReceiversList, addNewReceiver, deleteReceiver, changeReceiver, sendMail } from "../api";
+import { getRecipientsList, addNewRecipient, deleteRecipient, changeRecipient, sendMail } from "../api";
 import { useNavigate } from "react-router-dom";
 
-export default function ReceiversList() {
-  const [receivers, setRecievers] = useState([]);
+export default function RecipientsList() {
+  const [recipients, setRecipients] = useState([]);
   const [sent, setSent] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    getReceiversList()
-      .then(list => setRecievers(list));
+    getRecipientsList()
+      .then(list => setRecipients(list));
   }, []);
 
   const addToList = (data) => {
-    addNewReceiver(data)
-      .then(receiver => {
-        if (receiver) {
-          const newReceivers = [...receivers, receiver];
-          setRecievers(newReceivers);
+    addNewRecipient(data)
+      .then(recipient => {
+        if (recipient) {
+          const newRecipient = [...recipients, recipient];
+          setRecipients(newRecipient);
         }
       });
   }
 
   const removeFromList = (id) => {
-    deleteReceiver(id)
+    deleteRecipient(id)
       .then(status => {
         if (status && status === 'success') {
-          const newReceivers = receivers.filter(el => (el.receiver_id != id));
-          setRecievers(newReceivers);
+          const newRecipient = recipients.filter(el => (el.recipient_id != id));
+          setRecipients(newRecipient);
         }
       })
   }
 
   const changeElement = (data) => {
-    changeReceiver(data.receiver_id, data)
-      .then(receiver => {
-        if (receiver) {
-          const newReceivers = receivers.map(el => (
-            el.receiver_id == receiver.receiver_id
-              ? receiver
+    changeRecipient(data.recipient_id, data)
+      .then(recipient => {
+        if (recipient) {
+          const newRecipient = recipients.map(el => (
+            el.recipient_id == recipient.recipient_id
+              ? recipient
               : el
           ));
-          setRecievers(newReceivers);
+          setRecipients(newRecipient);
         }
       })
   }
@@ -55,9 +55,9 @@ export default function ReceiversList() {
     <div className="container-lg mt-4">
       <h2 className="text-center">Адресаты</h2>
       {
-        receivers &&
+        recipients &&
         <List
-          elements={receivers}
+          elements={recipients}
           addCallback={data => addToList(data)}
           removeCallback={id => removeFromList(id)}
           changeCallback={data => changeElement(data)}

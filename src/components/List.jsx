@@ -15,9 +15,9 @@ export default function List({ elements, addCallback, removeCallback, changeCall
       </thead>
       <tbody>
       {elements.map(el => (
-        el.receiver_id === editRow 
+        el.recipient_id === editRow 
         ? <Form
-            key={el.receiver_id}
+            key={el.recipient_id}
             data={el}
             callback={data => {
               changeCallback(data);
@@ -25,7 +25,7 @@ export default function List({ elements, addCallback, removeCallback, changeCall
             }} 
           />
         : <Row 
-            key={el.receiver_id}
+            key={el.recipient_id}
             data={el}
             remove={removeCallback}
             change={id => {

@@ -1,7 +1,7 @@
 <?php
 namespace API\Controller;
 
-use API\Model\ReceiverModel;
+use API\Model\RecipientModel;
 use Longman\TelegramBot;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -65,11 +65,11 @@ class DocumentController extends Controller {
 
   public function sendTelegramMessages() {
     $telegram_bot = new TelegramBot\Telegram(TELEGRAM_TOKEN);
-    $model = new ReceiverModel();
-    $receivers = $model->getTelegramReceivers();
-    foreach ($receivers as $receiver) {
+    $model = new RecipientModel();
+    $recipients = $model->getTelegramRecipients();
+    foreach ($recipients as $recipient) {
       $result = TelegramBot\Request::sendDocument([
-        'chat_id' => $receiver['contact'],
+        'chat_id' => $recipient['contact'],
         'document' => UPLOAD_DIR . $this->getDocumentName()
       ]);
       if (!$result->isOk()) {
@@ -79,8 +79,8 @@ class DocumentController extends Controller {
   }
 
   public function sendMail() {
-    $model = new ReceiverModel();
-    $receivers = $model->getEmailReceivers();
+    $model = new RecipientModel();
+    $recipients = $model->getEmailRecipients();
     try {
       $mail = new PHPMailer();
       $mail->CharSet = 'UTF-8';
@@ -95,8 +95,8 @@ class DocumentController extends Controller {
       $mail->Password = SMTP_PASSWORD;
 
       $mail->setFrom(SMTP_USERNAME, 'PDF Mailer');
-      foreach ($receivers as $receiver) {
-        $mail->addBcc($receiver['contact'], $receiver['fullname']);
+      foreach ($recipients as $recipient) {
+        $mail->addBcc($recipient['contact'], $recipient['fullname']);
       }
 
       $mail->Subject = 'PDF Mailer';

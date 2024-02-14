@@ -12,7 +12,6 @@ export default function Form({ data = [], callback }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(inputs);
     if (!inputs.fullname && !inputs.contact) {
       setError({...error, fullname: true, contact: true});
       return;
