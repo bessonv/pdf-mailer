@@ -63,7 +63,7 @@ class DocumentController extends Controller {
 
   public function sendAction() {
     $this->sendTelegramMessages();
-    // $this->sendMail();
+    $this->sendMail();
     $this->deleteExistingDocument();
     $this->sendOutput(['status' => 'success'], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
   }

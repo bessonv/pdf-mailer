@@ -1,5 +1,5 @@
-const BASE_URL = 'http://localhost:80/pdf_mailer/api';
-// const BASE_URL = 'http://bessonvapp.rf.gd/api';
+// const BASE_URL = 'http://localhost:80/pdf_mailer/api';
+const BASE_URL = 'http://bessonvapp.rf.gd/api';
 
 export const API = {
   recipients: {
