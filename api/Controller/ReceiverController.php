@@ -20,15 +20,25 @@ class ReceiverController extends Controller {
       $this->sendMethodError();
     }
     $model = new ReceiverModel();
-    // parse mail/telegram
     $data = json_decode(file_get_contents("php://input"), true);
+    $data['type'] = $this->validateContact($data['contact']);
     $newReceiver = $model->addReceiver($data);
     $this->sendOutput(['receiver' => $newReceiver], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
   }
 
+  public function validateContact($contact) {
+    if (filter_var($contact, FILTER_VALIDATE_EMAIL)) {
+      return 'email';
+    }
+    if (strlen($contact) == 9 && is_numeric($contact)) {
+      return 'telegram';
+    }
+    $this->sendValidationError();
+  }
+
   public function changeAction() {
     $method = $_SERVER['REQUEST_METHOD'];
-    if ($method != 'PUT') {
+    if ($method != 'POST') {
       $this->sendMethodError();
     }
 
@@ -38,14 +48,14 @@ class ReceiverController extends Controller {
     if (!isset($params['receiver_id'])) {
       $this->sendServerError();
     }
-    // parse mail/telegram
+    $body['type'] = $this->validateContact($body['contact']);
     $receiver = $model->changeReceiver($params['receiver_id'], $body);
     $this->sendOutput(['receiver' => $receiver], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
   }
 
   public function deleteAction() {
     $method = $_SERVER['REQUEST_METHOD'];
-    if ($method != 'DELETE') {
+    if ($method != 'GET') {
       $this->sendMethodError();
     }
     $params = $this->getQueryStringParams();

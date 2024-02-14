@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import List from "../components/List";
-import { getReceiversList, addNewReceiver, deleteReceiver, changeReceiver } from "../api";
+import { getReceiversList, addNewReceiver, deleteReceiver, changeReceiver, sendMail } from "../api";
 import { useNavigate } from "react-router-dom";
 
 export default function ReceiversList() {
@@ -45,6 +45,11 @@ export default function ReceiversList() {
       })
   }
 
+  const sendPDF = () => {
+    sendMail()
+      .then(result => console.log(result));
+  }
+
   return (
     <div className="container-lg mt-4">
       <h2 className="text-center">Адресаты</h2>
@@ -70,7 +75,8 @@ export default function ReceiversList() {
           type="button"
           onClick={event => {
             event.preventDefault();
-            navigate('/list');
+            sendPDF();
+            // navigate('/laod');
           }}
         >Разослать</button>
       </div>

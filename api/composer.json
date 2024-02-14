@@ -3,5 +3,9 @@
       "psr-4": {
           "API\\": "./"
       }
+  },
+  "require": {
+    "phpmailer/phpmailer": "^6.9",
+    "longman/telegram-bot": "^0.82.0"
   }
 }

@@ -30,9 +30,16 @@ class Controller {
     );
   }
 
-  protected function sendServerError() {
+  protected function sendValidationError() {
     $this->sendOutput(
-      ['error' => 'Server Error'],
+      ['error' => 'Contact validation error'],
+      ['Content-Type: application/json', 'HTTP/1.1 422 Unprocessable Entity']
+    );
+  }
+
+  protected function sendServerError($message = '') {
+    $this->sendOutput(
+      ['error' => 'Server Error', 'message' => $message],
       ['HTTP/1.1 500 Internal Server Error']
     );
   }

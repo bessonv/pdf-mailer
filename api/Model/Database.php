@@ -24,7 +24,8 @@ class Database {
       'CREATE TABLE IF NOT EXISTS receivers (
         receiver_id INTEGER PRIMARY KEY, 
         fullname TEXT NOT NULL,
-        contact TEXT NOT NULL
+        contact TEXT NOT NULL,
+        type TEXT NOT NULL
       );'
     ];
     foreach ($commands as $command) {

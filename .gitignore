@@ -25,3 +25,4 @@ dist-ssr
 
 api/vendor
 api/db
+api/config.php
