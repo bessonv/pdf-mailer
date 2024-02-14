@@ -13,9 +13,7 @@ class DocumentController extends Controller {
         $this->sendOutput(['result' => 'failure'], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
       }
       $uploadfile = UPLOAD_DIR . basename($_FILES['file']['name']);    
-      if ($this->isDocumentExist()) {
-        unlink(UPLOAD_DIR . $this->getDocumentName());
-      }
+      $this->deleteExistingDocument();
       $success = move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
       if ($success) {
         $this->sendOutput(['result' => 'success'], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
@@ -27,7 +25,7 @@ class DocumentController extends Controller {
     }
   }
 
-  public function isValidDocument($document) {
+  private function isValidDocument($document) {
     $ext = pathinfo($document, PATHINFO_EXTENSION);
     if (mb_strtolower($ext) != 'pdf') {
       return false;
@@ -44,12 +42,12 @@ class DocumentController extends Controller {
     }
   }
 
-  public function isDocumentExist() {
+  private function isDocumentExist() {
     $dirContent = scandir(UPLOAD_DIR);
     return count($dirContent) != 2;
   }
 
-  public function getDocumentName() {
+  private function getDocumentName() {
     $dirContent = scandir(UPLOAD_DIR);
     if ($dirContent == 2) {
       $this->sendServerError();
@@ -57,13 +55,20 @@ class DocumentController extends Controller {
     return $dirContent[2];
   }
 
+  private function deleteExistingDocument() {
+    if ($this->isDocumentExist()) {
+      unlink(UPLOAD_DIR . $this->getDocumentName());
+    }
+  }
+
   public function sendAction() {
     $this->sendTelegramMessages();
-    $this->sendMail();
+    // $this->sendMail();
+    $this->deleteExistingDocument();
     $this->sendOutput(['status' => 'success'], ['Content-Type: application/json', 'HTTP/1.1 200 OK']);
   }
 
-  public function sendTelegramMessages() {
+  private function sendTelegramMessages() {
     $telegram_bot = new TelegramBot\Telegram(TELEGRAM_TOKEN);
     $model = new RecipientModel();
     $recipients = $model->getTelegramRecipients();
@@ -78,7 +83,7 @@ class DocumentController extends Controller {
     }
   }
 
-  public function sendMail() {
+  private function sendMail() {
     $model = new RecipientModel();
     $recipients = $model->getEmailRecipients();
     try {
