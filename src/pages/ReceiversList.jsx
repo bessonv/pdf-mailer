@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ReceiversList() {
   const [receivers, setRecievers] = useState([]);
+  const [sent, setSent] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     getReceiversList()
@@ -73,12 +74,22 @@ export default function ReceiversList() {
         <button
           className="btn btn-lg btn-primary"
           type="button"
+          disabled={sent}
           onClick={event => {
             event.preventDefault();
+            setSent(true);
             sendPDF();
-            // navigate('/laod');
+            navigate('/');
           }}
-        >Разослать</button>
+        >
+          {
+            sent
+            ? (<div className="spinner-border mx-4" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>)
+            : 'Разослать'
+          }
+        </button>
       </div>
     </div>
   )

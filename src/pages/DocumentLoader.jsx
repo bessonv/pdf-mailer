@@ -5,6 +5,7 @@ import { fetchFile } from "../api";
 export default function DocumentLoader() {
   const [file, setFile] = useState();
   const [error, setError] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -16,6 +17,7 @@ export default function DocumentLoader() {
       setError(true);
     } else {
       setError(false);
+      setDisabled(true);
       fetchFile(formData)
         .then(response => {
           if (response.result == 'success') {
@@ -36,7 +38,7 @@ export default function DocumentLoader() {
         <label htmlFor="formFile" className="form-label">Выберите файл для загрузки:</label>
         <input className={`form-control ${error ? 'is-invalid' : ''}`} type="file" id="formFile" onChange={handleChange} required />
         <div className="invalid-feedback">Файл должен быть формата PDF</div>
-        <button className="btn btn-primary" type="submit">Загрузить</button>
+        <button className="btn btn-primary" type="submit" disabled={disabled}>Загрузить</button>
       </form>
     </div>
   );

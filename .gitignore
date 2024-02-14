@@ -24,5 +24,6 @@ dist-ssr
 *.sw?
 
 api/vendor
-api/db
+api/db/*
+api/files/*
 api/config.php
